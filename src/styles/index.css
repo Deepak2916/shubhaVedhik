@@ -1,0 +1,239 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Platform brand — drawn from Indian wedding-card stock:
+   rani-pink paper, kumkum, haldi, deep plum ink, mango-leaf green.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #fcf5f3;
+  --color-blush: #f6e5e4;
+  --color-rose: #e9d0d1;
+  --color-plum: #2b1730;
+  --color-plum-soft: #4a2f4f;
+  --color-mist: #6f5866;
+  --color-kumkum: #9e1b3c;
+  --color-kumkum-deep: #7c1230;
+  --color-haldi: #e7a626;
+  --color-haldi-soft: #f6dc9c;
+  --color-leaf: #2f6b4f;
+  --color-danger: #b42318;
+
+  --font-display: 'Rozha One', 'Tiro Devanagari Hindi', Georgia, serif;
+  --font-sans: 'Mukta', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-card: 0 1px 0 rgb(43 23 48 / 0.04), 0 12px 32px -18px rgb(43 23 48 / 0.35);
+  --shadow-lift: 0 30px 60px -30px rgb(43 23 48 / 0.55);
+}
+
+/* Invitation theme tokens: set per template on the renderer root. */
+@theme inline {
+  --color-inv-bg: var(--inv-bg);
+  --color-inv-surface: var(--inv-surface);
+  --color-inv-text: var(--inv-text);
+  --color-inv-muted: var(--inv-muted);
+  --color-inv-primary: var(--inv-primary);
+  --color-inv-accent: var(--inv-accent);
+  --color-inv-on-primary: var(--inv-on-primary);
+  --color-inv-border: var(--inv-border);
+  --font-inv-display: var(--inv-font-display);
+  --font-inv-body: var(--inv-font-body);
+  --font-inv-script: var(--inv-font-script);
+  --font-inv-accent: var(--inv-font-accent);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-plum);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 {
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-haldi);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  button, [role='button'] {
+    cursor: pointer;
+  }
+  img, video {
+    max-width: 100%;
+  }
+  ::selection {
+    background: var(--color-haldi-soft);
+    color: var(--color-plum);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Invitation surface
+   ------------------------------------------------------------------ */
+.inv-root {
+  background: var(--inv-bg);
+  color: var(--inv-text);
+  font-family: var(--inv-font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  overflow-x: clip;
+}
+.inv-root .inv-display {
+  font-family: var(--inv-font-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.inv-root[data-heading-case='upper'] .inv-display-cased {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.inv-root .inv-script {
+  font-family: var(--inv-font-script, var(--inv-font-display));
+}
+.inv-root .inv-accent-font {
+  font-family: var(--inv-font-accent, var(--inv-font-display));
+}
+
+.inv-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--inv-primary), transparent);
+}
+
+/* Textures — static, GPU-cheap backgrounds. */
+.tex-paper {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.tex-silk {
+  background-image:
+    linear-gradient(115deg, rgb(255 255 255 / 0.05) 0%, transparent 35%, rgb(255 255 255 / 0.04) 55%, transparent 80%),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.018) 0 1px, transparent 1px 3px);
+}
+.tex-linen {
+  background-image:
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.02) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.02) 0 1px, transparent 1px 3px);
+}
+.tex-grain::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(6) infinite;
+}
+
+/* ------------------------------------------------------------------
+   Lightweight ambient effects (CSS only, transform/opacity)
+   ------------------------------------------------------------------ */
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes drift {
+  0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.8; }
+  100% { transform: translate3d(var(--drift-x, 30px), 110vh, 0) rotate(var(--drift-r, 220deg)); opacity: 0; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  45% { opacity: 0.82; transform: scale(0.97); }
+  60% { opacity: 0.95; transform: scale(1.02); }
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50% { transform: rotate(1.6deg); }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+.ambient-petal {
+  position: absolute;
+  top: 0;
+  will-change: transform, opacity;
+  animation: drift var(--drift-dur, 14s) linear var(--drift-delay, 0s) infinite;
+}
+.shimmer-text {
+  background: linear-gradient(100deg, var(--inv-primary) 20%, var(--inv-accent) 40%, #fff7e0 50%, var(--inv-accent) 60%, var(--inv-primary) 80%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+.anim-flicker { animation: flicker 3.2s ease-in-out infinite; transform-origin: 50% 100%; }
+.anim-sway { animation: sway 5s ease-in-out infinite; transform-origin: 50% 0; }
+.anim-breathe { animation: breathe 4s ease-in-out infinite; }
+.anim-spin-slow { animation: spin-slow 80s linear infinite; }
+
+/* Horizontal scrollers without visible scrollbars, with snap. */
+.snap-row {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-row::-webkit-scrollbar { display: none; }
+.snap-row > * { scroll-snap-align: start; }
+
+/* Range input styling for the music player. */
+.range-thin {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, currentColor 25%, transparent);
+}
+.range-thin::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.range-thin::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ambient-petal, .tex-grain::after { display: none; }
+}
